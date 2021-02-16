@@ -1,40 +1,41 @@
-import React from 'react';
+import React, {
+  useState} from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  useHistory
 } from 'react-router-dom';
 
 
 //import component correctly
 import Header from './components/Header';
-import Public from './components/Public';
+import Courses from './components/Courses';
+import CourseDetail from './components/CourseDetail';
 import NotFound from './components/NotFound';
 import UserSignUp from './components/UserSignUp';
 import UserSignIn from './components/UserSignIn';
 import UserSignOut from './components/UserSignOut';
 import Authenticated from './components/Authenticated';
-
-
-import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
-
-const HeaderWithContext = withContext(Header);
-const UserSignUpWithContext = withContext(UserSignUp);
-const UserSignInWithContext = withContext(UserSignIn);
-const UserSignOutWithContext = withContext(UserSignOut);
-
-const AuthWithContext = withContext(Authenticated);
+import './styles/global.css';
 
 
 
-export default () => (
+
+
+export default function App() {
+
+
+
+
+
   <Router>
     <div>
-      <HeaderWithContext/>
+      <Header/>
 
       <Switch>
-        <Route exact path="/" component={Public} />
+        <Route exact path="/" render={{Courses} }/>
         <PrivateRoute path="/authenticated" component={AuthWithContext} />
         <PrivateRoute path="/settings" component={AuthWithContext}/>
         <Route path="/signin" component={UserSignInWithContext} />
@@ -44,4 +45,4 @@ export default () => (
       </Switch>
     </div>
   </Router>
-);
+}
