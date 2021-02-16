@@ -9,9 +9,9 @@ export default function UpdateCourse(props) {
     return (
         <>
             <div className="bounds course--detail">
-            <h1>Update Course</h1>
-        </div>
-        <form>
+                <h1>Update Course</h1>
+            </div>
+            <form>
             <div className="grid-66">
             <div className="course--header">
                 <h4 className="course--label">Course</h4>

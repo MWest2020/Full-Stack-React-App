@@ -32,9 +32,3 @@ export default class Courses extends Component {
     );
   }
 }
-
-
-      {/* </div>
-      <hr>
-      <div> */}
-        

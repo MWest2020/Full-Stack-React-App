@@ -1,18 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './styles/global.css';
-import './styles/new.css';
-// import './styles/init.css';
-
-import { Provider } from './Context';
 import App from './App';
- 
+
 
 ReactDOM.render(
-  <Provider>
+  <React.StrictMode>
     <App />
-  </Provider>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
-
