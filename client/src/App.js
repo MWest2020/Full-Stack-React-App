@@ -1,6 +1,7 @@
+//import React and Hooks
 import React, {
-  
   useState} from 'react';
+//import Routing support for React
 import {
   BrowserRouter as Router,
   Route,
@@ -9,7 +10,8 @@ import {
 } from 'react-router-dom';
 
 
-//import component correctly
+//import components 
+//
 import Header from './components/Header';
 
 //Courses routes
@@ -110,7 +112,7 @@ function App() {
 
         <Switch>
           <Route exact path="/" render={() => (<Courses authenticatedUser={authenticatedUser}/>)}/>
-          
+          <Route exact path={`/courses/:id`} render={()=>(<CourseDetails authenticatedUser={authenticatedUser}/>)}/>
           <Route component={NotFound} />
         </Switch>
       </div>
