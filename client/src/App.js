@@ -30,7 +30,7 @@ import Authenticated from './components/Authenticated';
 //error routes
 import NotFound from './components/NotFound';
 import Forbidden from './components/Forbidden';
-import UnhandledErrors from './components/UnhandledErrors';
+import UnhandledError from './components/UnhandledError';
 
 import PrivateRoute from './PrivateRoute';
 import './styles/global.css';
@@ -38,21 +38,19 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 
-
-
 function App() {
 
   //access history object for routing 
-  const history = useHistory();
+  let history = useHistory();
 
 
-  //initial state is either cookies or ''
+  //initial state is either cookies or null
   const [
     authenticatedUser, 
-    setAuthenticatedUser] = useState(Cookies.getJSON('authenticatedUser') || ''); 
+    setAuthenticatedUser] = useState(Cookies.getJSON('authenticatedUser') || null); 
   const [
     credentials, 
-    setCredentials] = useState(Cookies.getJSON('credentials') || '');
+    setCredentials] = useState(Cookies.getJSON('credentials') || null);
 
     //handleSignIn
   const handleSignIn = async(username, password)=>{
@@ -73,17 +71,17 @@ function App() {
         //updating credentials state
         setCredentials(btoa(`${username}:${password}`));
         //updating Cookies
-        Cookies.set('credentials', JSON.stringify(btoa(`${username}:${password}`)));  
+        Cookies.set('credentials', JSON.stringify(btoa(`${username}:${password}`)), {expires: 1/12});  
         //updating Authenticated user state
         setAuthenticatedUser(user);
         //Cookie update (expires after 2 hours)
         Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1/12})
        } else {
-         user = '';
+         user = null;
        }
     }).catch((err)=>{
       if(err.res.status === 401){
-        user = '';
+        user = null;
       } else {
         history.push('/error');
       }
@@ -100,19 +98,28 @@ function App() {
     const handleSignOut = () => {
       Cookies.remove('authenticatedUser');
       Cookies.remove('credentials');
-      setAuthenticatedUser('');
-      setCredentials('');
+      setAuthenticatedUser(null);
+      setCredentials(null);
     }
 
   return (
     <Router>
       <div>
-        <Header authenticatedUser={authenticatedUser}
-        />
+        <Header authenticatedUser={authenticatedUser}/>
 
         <Switch>
           <Route exact path="/" render={() => (<Courses authenticatedUser={authenticatedUser}/>)}/>
-          <Route exact path={`/courses/:id`} render={()=>(<CourseDetails authenticatedUser={authenticatedUser}/>)}/>
+
+          //Private routes
+
+
+          <Route exact path="/courses/:id" render={() => (<CourseDetails credentials={credentials} authenticatedUser={authenticatedUser}/>)}/>
+
+          <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn}/>)}/>
+          <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn}/>)}/>
+          <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut}/>)}/>
+          <Route path="/error" component={UnhandledError}/>
+          <Route path="/forbidden" component={Forbidden}/>
           <Route component={NotFound} />
         </Switch>
       </div>

@@ -1,13 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 //Returns simple nav bar based on whether user is signed in or not.
 
+
+
+
 export default function Header(props) {
+
+  let history = useHistory();
+
+  function handleClick() {
+    history.push('/')
+  }
+
+
   return (
     <div className="header">
       <div className="bounds">
-        <h1 className="header--logo">Courses</h1>
+        <h1 className="header--logo" onClick={handleClick} >Courses</h1>
         <nav>
           {props.authenticatedUser ? (
             <>
