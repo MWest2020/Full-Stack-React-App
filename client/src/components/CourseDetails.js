@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import axios from 'axios';
+import Markdown from 'react-markdown';
 
 //https://reactrouter.com/web/guides/quick-start
-//
+//https://stackoverflow.com/questions/31875748/how-do-i-render-markdown-from-a-react-component
 
 export default function CourseDetails(props) {
 
     let history = useHistory();
     // url id =  id
     let { id } = useParams();
+    
 
     const [course, setCourse] = useState({    
         title: '', 
@@ -69,7 +71,7 @@ export default function CourseDetails(props) {
             <div className="actions--bar">
             <div className="bounds">
                 <div className="grid-100">
-                //https://reactjs.org/docs/conditional-rendering.html shorthand for if both props are === courses.user.id AND true
+                {/* //https://reactjs.org/docs/conditional-rendering.html shorthand for if both props are === courses.user.id AND true */}
                     {
                         props.authenticatedUser && props.authenticatedUser.id === course.User.id &&
                         <span>
@@ -78,7 +80,7 @@ export default function CourseDetails(props) {
                         </span>
                     
                     }
-                <Link to="/courses" className="button button-secondary" >Return to List</Link>
+                <Link to="/" className="button button-secondary" >Return to List</Link>
                 </div>
             </div>
             </div>
@@ -87,7 +89,10 @@ export default function CourseDetails(props) {
                 <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <h3 className="courses--title">{course.title}</h3>
-                <p>By {`${course.User.firstName} ${course.User.lastName}`}</p>
+                {
+                    props.authenticatedUser && props.authenticatedUser.id === course.User.id &&
+                    <p>By {`${course.User.firstName} ${course.User.lastName}`}</p>
+                }
                 </div>
                 <div className="course--description">
                 <p>{course.description}</p>
@@ -105,10 +110,13 @@ export default function CourseDetails(props) {
                     </li>
                     <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
-                    <ul>
-                        {course.materialsNeeded}
-                    </ul>
-                    </li>s
+                    
+                        {
+                            course.materialsNeeded !== null &&
+                            <Markdown>{course.materialsNeeded}</Markdown>
+                        }
+                    
+                    </li>
                 </ul>
                 </div>
             </div>
