@@ -1,92 +1,94 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Form from './Form';
+import React, { useState} from 'react';
 
-export default class UserSignIn extends Component {
+import { Link, useHistory, useLocation } from 'react-router-dom';
+export default function UserSignIn(props) {
+
+  let history = useHistory();
+  let location = useLocation();
+     
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [errors, setErrors] = useState([]);
   
-  state = {
-    username: '',
-    password: '',
-    errors: [],
-  }
-
-  render() {
-    const {
-      username,
-      password,
-      errors,
-    } = this.state;
-
-    return (
-      <div className="bounds">
-        <div className="grid-33 centered signin">
-          <h1>Sign In</h1>
-          <Form 
-            cancel={this.cancel}
-            errors={errors}
-            submit={this.submit}
-            submitButtonText="Sign In"
-            elements={() => (
-              <>
-                <input 
-                  id="username" 
-                  name="username" 
-                  type="text"
-                  value={username} 
-                  onChange={this.change} 
-                  placeholder="User Name" />
-                <input 
-                  id="password" 
-                  name="password"
-                  type="password"
-                  value={password} 
-                  onChange={this.change} 
-                  placeholder="Password" />                
-              </>
-            )} />
-          <p>
-            Don't have a user account? <Link to="/signup">Click here</Link> to sign up!
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  change = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  }
-
-  submit = () => {
-    const { context } = this.props;
-    const { from } = this.props.location.state || { from: { pathname: '/authenticated' }}; 
-    const { username, password } = this.state;
-    context.actions.signIn(username, password)
+  const submit = () => {
+        
+    props.handleSignIn(email, password)
     .then( user => {
-      this.setState( () => {
-        if(user === null) {
-          return {errors: [ 'Sign-in was unsuccesful' ]};
+      
+        if(!user) {
+          setErrors([ 'Sign-in not succesful' ]);
         } else {
-          this.props.history.push(from);
-          console.log(`SUCCESS ${username} is now signed-in!`)
+          
+          if(location.state){
+            history.push(location.state);
+          } else {
+            history.push('/signin')
+          }
         }
-      })
+      
     })
     .catch(
       (err) => {
         console.log(err);
-        this.props.history.push('/error');
+        history.push('/error');
       })
   }
   
 
-  cancel = () => {
-    this.props.history.push('/');
+  const cancel = () => {
+    history.push('/');
   }
+  
+  
+  
+  
+  return (
+    <div className="bounds">
+      <div className="grid-33 centered signin">
+        <h1>Sign In</h1>
+        <>
+        <form> 
+          
+            <>
+            { errors !== [] && 
+              <ul className="validation--errors--label">{errors.map(error => { return <li key={'error' + error.index}><p>{error}</p></li> })}</ul>
+            }
+              <input 
+                id="email"
+                name="email" 
+                type="text"
+                 
+                onChange={event => setEmail(event.target.value)} 
+                placeholder="Email Address" />
+              <input 
+                id="password" 
+                name="password"
+                type="password"
+                
+                onChange={event =>{ setPassword(event.target.value)}} 
+                placeholder="Password" />   
+              <div className="grid-100 pad-bottom">
+              <button 
+                className="button" 
+                onClick={submit} 
+                type="submit">Sign In
+              </button>
+              <button 
+                className="button button-secondary" 
+                onClick={cancel} 
+                type="submit">Cancel
+              </button>
+              </div>               
+            </>
+          
+          </form>
+        </>
+        
+        <p>
+          Don't have a user account? <Link to="/signup">Click here</Link> to sign up!
+        </p>
+      </div>
+    </div>
+  );
 }
+

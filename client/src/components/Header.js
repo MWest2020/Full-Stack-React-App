@@ -10,7 +10,7 @@ export default function Header(props) {
 
   let history = useHistory();
 
-  function handleClick() {
+  function landing() {
     history.push('/')
   }
 
@@ -18,7 +18,7 @@ export default function Header(props) {
   return (
     <div className="header">
       <div className="bounds">
-        <h1 className="header--logo" onClick={handleClick} >Courses</h1>
+        <h1 className="header--logo" onClick={landing} >Courses</h1>
         <nav>
           {props.authenticatedUser ? (
             <>
