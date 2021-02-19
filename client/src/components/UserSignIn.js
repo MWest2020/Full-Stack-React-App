@@ -10,8 +10,8 @@ export default function UserSignIn(props) {
   const [password, setPassword] = useState(null);
   const [errors, setErrors] = useState([]);
   
-  const submit = () => {
-        
+  const submit = (event) => {
+    event.preventDefault();
     props.handleSignIn(email, password)
     .then( user => {
       
@@ -20,9 +20,9 @@ export default function UserSignIn(props) {
         } else {
           
           if(location.state){
-            history.push(location.state);
+            history.push(location.state.from);
           } else {
-            history.push('/signin')
+            history.push('/')
           }
         }
       

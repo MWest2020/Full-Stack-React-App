@@ -108,10 +108,12 @@ function App() {
         <Header authenticatedUser={authenticatedUser}/>
 
         <Switch>
-          <Route exact path="/" render={() => (<Courses authenticatedUser={authenticatedUser}/>)}/>
+          <Route exact path="/" render={() => (<Courses/>)}/>
+          {/* <Route exact path="/" render={() => (<Courses authenticatedUser={authenticatedUser}/>)}/> */}
 
           //Private routes
-
+          <PrivateRoute exact path="/courses/create" component={CreateCourse}/>
+          <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse}/>
 
           <Route exact path="/courses/:id" render={() => (<CourseDetails credentials={credentials} authenticatedUser={authenticatedUser}/>)}/>
 

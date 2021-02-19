@@ -1,39 +1,39 @@
 import React, { useState, useEffect} from 'react';
 
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
-
-
-
 
 export default function CreateCourse(props) {
 
-  let history = useHistory();
+    let history = useHistory();
   
   
-  const [ title, setTitle ] = useState(null);
-  const [ description, setLastName ] = useState(null);
-  const [ estimatedTime, setEmailAddress ] = useState(null);
-  const [ materialsNeeded, setPassword ] = useState(null);
+    const [ title, setTitle ] = useState(null);
+    const [ description, setDescription ] = useState(null);
+    const [ estimatedTime, setEstimatedTime ] = useState(null);
+    const [ materialsNeeded, setMaterialsNeeded ] = useState(null);
+    const [ validationTitle, setValidationTitle] = useState([]);  
+    const [ errors, setErrors] = useState([]);
  
 
- 
-
-    const handleSignIn = (e) => {
+    const handleCreateCourse = async (event) => {
         
-      setErrors([]);
+      event.preventDefault();
 
-    e.preventDefault();
-
-    if (password === confirmPassword) {
-      axios.post(`/api/users`, {
-              firstName: firstName,
-              lastName: lastName,
-              emailAddress: emailAddress,
-              password: password
-      }).then((response) => {
+    
+      await axios.post(`/api/courses`, {
+            
+            title: title,
+            description: description,
+            userId: props.authenticatedUser.id, 
+            estimatedTime: estimatedTime,
+            materialsNeeded: materialsNeeded
+      }, {headers: {
+          Authorization: `Basic ${props.credentials}`
+      }}
+      ).then((response) => {
           if (response.status === 201) {
-              props.handleSignIn(emailAddress, password);
+              console.log('added course to database')
               history.push('/');
           }
       })
@@ -44,15 +44,12 @@ export default function CreateCourse(props) {
               history.push('/error');
           }
       })
-  } else {
-      setErrors([ `Passwords don't match.` ]);
-  }
-
+    } 
+    
   
-  }
-  const cancel = () => {
+    const cancel = () => {
     history.push('/');
-  }
+    }
 
   
   // The Validation Errors text only gets set if error(s) exist,
@@ -61,7 +58,7 @@ export default function CreateCourse(props) {
       if (errors.length > 0) {
           setValidationTitle("Validation errors");
       }
-  },[errors]);
+    },[errors]);
 
    
   return (
@@ -77,55 +74,48 @@ export default function CreateCourse(props) {
         }
         
         
-        <h1>Sign Up</h1>
+        <h1>Create Course</h1>
         <>
         <form> 
           
             <>
             
               <input 
-                id="first-name"
-                name="first-name" 
+                id="title"
+                name="title" 
                 type="text"
-                onChange={event => setFirstName(event.target.value)} 
-                placeholder="First Name" />
+                onChange={event => setTitle(event.target.value)} 
+                placeholder="Title" />
               <input 
-                id="last-name"
-                name="last-name" 
-                type="text"
-                onChange={event => setLastName(event.target.value)} 
-                placeholder="Last Name" />
-              <input 
-                id="emailAddress"
-                name="emailAddress" 
-                type="text"
-                onChange={event => setEmailAddress(event.target.value) } 
-                placeholder="Email Address" />
-              <input 
-                id="password" 
-                name="password"
-                type="password"
-                onChange={event =>{ setPassword(event.target.value) }} 
-                placeholder="Password" />   
-              
-              <input 
-                id="confirm-password" 
-                name="confirm-password"
-                type="password"
-                onChange={event =>{ setConfirmPassword(event.target.value) }} 
-                placeholder="Confirm Password" />   
-              <div className="grid-100 pad-bottom"></div>
+                id="description"
+                name="description" 
+                type="textarea"
+                onChange={event => setDescription(event.target.value)} 
+                placeholder="Description" />
+              <textarea 
+                id="estimatedTime"
+                name="estimatedTime" 
+                source={estimatedTime}
+                onChange={event => setEstimatedTime(event.target.value) } 
+                placeholder="Estimated Time" />
+              <textarea
+                id="materials-needed" 
+                name="materials-needed"
+                source={materialsNeeded}
+                onChange={event =>{ setMaterialsNeeded(event.target.value) }} 
+                placeholder="Materials Needed" />   
+              <div className="grid-100 pad-bottom">
               <button 
                 className="button" 
-                onClick={handleSignIn} 
-                type="submit">Sign Up
+                onClick={event => handleCreateCourse(event)} 
+                type="submit">Add Course
               </button>
               <button 
                 className="button button-secondary" 
                 onClick={cancel} 
                 type="submit">Cancel
               </button>
-                           
+              </div>           
             </>
           
           </form>
