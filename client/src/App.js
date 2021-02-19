@@ -113,9 +113,9 @@ function App() {
 
           //Private routes
           <PrivateRoute exact path="/courses/create" component={CreateCourse}/>
-          <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse}/>
+          <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse} />
 
-          <Route exact path="/courses/:id" render={() => (<CourseDetails credentials={credentials} authenticatedUser={authenticatedUser}/>)}/>
+          <Route exact path="/courses/:id" render={(props) => (<CourseDetails credentials={credentials} authenticatedUser={authenticatedUser}/>)}/>
 
           <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn}/>)}/>
           <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn}/>)}/>

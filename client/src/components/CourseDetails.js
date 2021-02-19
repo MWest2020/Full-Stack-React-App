@@ -27,7 +27,8 @@ export default function CourseDetails(props) {
 
      const deleteCourse = async () => {
          await axios.delete(`/api/courses/${id}`,
-            {headers: {
+            {
+                headers: {
                 Authorization: `Basic ${props.credentials}`
             }
         })
@@ -71,15 +72,18 @@ export default function CourseDetails(props) {
             <div className="actions--bar">
             <div className="bounds">
                 <div className="grid-100">
-                {/* //https://reactjs.org/docs/conditional-rendering.html shorthand for if both props are === courses.user.id AND true */}
-                    {
+                
+                    {/* {
                         props.authenticatedUser && props.authenticatedUser.id === course.User.id &&
                         <span>
-                        <Link to={`/courses/${id}update`} className="button" >Update Course</Link>
+                        <Link to={`/courses/${id}/update`} className="button" >Update Course</Link>
                         <button onClick={deleteCourse} className="button">Delete Course</button>
                         </span>
                     
-                    }
+                    } */}
+                    
+                <Link to={`/courses/${id}/update`} className="button" >Update Course</Link>    
+                <Link to={`/courses/${id}/delete`} className="button" onClick={deleteCourse}>Delete Course</Link>    
                 <Link to="/" className="button button-secondary" >Return to List</Link>
                 </div>
             </div>

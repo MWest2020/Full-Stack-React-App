@@ -86,13 +86,13 @@ export default function CreateCourse(props) {
                 type="text"
                 onChange={event => setTitle(event.target.value)} 
                 placeholder="Title" />
-              <input 
+              <textarea 
                 id="description"
                 name="description" 
                 type="textarea"
                 onChange={event => setDescription(event.target.value)} 
                 placeholder="Description" />
-              <textarea 
+              <input
                 id="estimatedTime"
                 name="estimatedTime" 
                 source={estimatedTime}
