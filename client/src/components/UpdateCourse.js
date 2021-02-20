@@ -23,26 +23,27 @@ export default function UpdateCourse(props) {
         await axios.get(`/api/courses/${id}`)
         .then((res)=>{
             // //
-            // if(res.status === 200 && res.data.courses !== null){
-
+            if(res.status === 200 && res.data.courses === null){
+                history.push('/notfound')
+            } else if (!props.authenticatedUser || !props.authenticatedUser.id){
+                history.push('/forbidden');
+            }
             
-            
-            // } else if ( ) {
-            //     history.push('/notfound');
-            // } else {
-            //     history.push('/notfound');
-            // }
-            setTitle(res.data.title);
-            setDescription(res.data.description);
-            setEstimatedTime(res.data.estimatedTime);
-            setMaterialsNeeded(res.data.materialsNeeded);
+            setTitle(res.data.course.title);
+            setDescription(res.data.course.description);
+            setEstimatedTime(res.data.course.estimatedTime);
+            setMaterialsNeeded(res.data.course.materialsNeeded);
         })
-        .catch((err) =>{
-            history.push('/error');//pass error msg?
-        });
+        .catch((error) =>{
+            if(error.request && error.request.status === 400){
+                setErrors(JSON.parse(error.request.response).errors);
+            } else{
+                history.push('/error');
+            }
+            });
         }
         fetchData();
-    }, [history, id])
+    }, [history, id, props.authenticatedUser])
 
 
 
@@ -51,26 +52,30 @@ export default function UpdateCourse(props) {
       event.preventDefault();
 
     
-      await axios.put(`/api/courses`, {
+      await axios.put(`/api/courses/${id}`, {
             
             title: title,
             description: description,
             userId: props.authenticatedUser.id, 
             estimatedTime: estimatedTime,
             materialsNeeded: materialsNeeded
-      }, {headers: {
+      }, {
+          headers: {
           Authorization: `Basic ${props.credentials}`
       }}
       ).then((response) => {
-          if (response.status === 201) {
+          if (response.status === 204) {
               console.log('added course to database')
-              history.push('/');
+              history.push(`/courses/${id}`);
+          } else if (response.status === 204) {
+            history.push('/forbidden');
           }
       })
       .catch((error) => {
           if (error.request.status === 400) {
               setErrors(JSON.parse(error.request.response).errors)
-          } else {
+          }  else {
+            console.log('here-io')
               history.push('/error');
           }
       })

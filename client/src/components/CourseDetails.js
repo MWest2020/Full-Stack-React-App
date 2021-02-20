@@ -21,29 +21,6 @@ export default function CourseDetails(props) {
         materialsNeeded: null
      });
     
-    //fetch users
-    //done with props
-    //fetch course
-
-     const deleteCourse = async () => {
-         await axios.delete(`/api/courses/${id}`,
-            {
-                headers: {
-                Authorization: `Basic ${props.credentials}`
-            }
-        })
-         .then(res =>{
-             if(res.status === 403){
-                 history.push('/forbidden');
-             }
-         })
-         .catch(()=>{
-             history.push('/error');
-         });
-         history.push('/');
-     }
-
-
     //https://www.robinwieruch.de/react-fetching-data
     useEffect(()=>{
         async function fetchData(){
@@ -63,27 +40,39 @@ export default function CourseDetails(props) {
         fetchData();
     }, [history, id])
 
-
-
-
+    const deleteCourse = async () => {
+        await axios.delete(`/api/courses/${id}`,
+           {headers: {
+               Authorization: `Basic ${props.credentials}`
+           }
+       })
+        .then(res =>{
+            if(res.status === 403){
+                history.push('/forbidden');
+            }
+        })
+        .catch(()=>{
+            console.log('here');
+            history.push('/error');
+        });
+        history.push('/');
+    }
 
     return (
         <>
             <div className="actions--bar">
             <div className="bounds">
                 <div className="grid-100">
-                
+               
                     {/* {
                         props.authenticatedUser && props.authenticatedUser.id === course.User.id &&
-                        <span>
-                        <Link to={`/courses/${id}/update`} className="button" >Update Course</Link>
-                        <button onClick={deleteCourse} className="button">Delete Course</button>
-                        </span>
+                        
                     
                     } */}
-                    
-                <Link to={`/courses/${id}/update`} className="button" >Update Course</Link>    
-                <Link to={`/courses/${id}/delete`} className="button" onClick={deleteCourse}>Delete Course</Link>    
+                    <span>
+                        <Link to={`/courses/${id}update`} className="button" >Update Course</Link>
+                        <button onClick={deleteCourse} className="button">Delete Course</button>
+                        </span>
                 <Link to="/" className="button button-secondary" >Return to List</Link>
                 </div>
             </div>
@@ -93,10 +82,11 @@ export default function CourseDetails(props) {
                 <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <h3 className="courses--title">{course.title}</h3>
-                {
+                {/* {
                     props.authenticatedUser && props.authenticatedUser.id === course.User.id &&
-                    <p>By {`${course.User.firstName} ${course.User.lastName}`}</p>
-                }
+                    
+                } */}
+                <p>By {`${props.authenticatedUser.firstName} ${props.authenticatedUser.lastName}`}</p>
                 </div>
                 <div className="course--description">
                 <p>{course.description}</p>

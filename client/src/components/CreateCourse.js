@@ -8,8 +8,8 @@ export default function CreateCourse(props) {
     let history = useHistory();
   
   
-    const [ title, setTitle ] = useState(null);
-    const [ description, setDescription ] = useState(null);
+    const [ title, setTitle ] = useState('');
+    const [ description, setDescription ] = useState('');
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState(null);
     const [ validationTitle, setValidationTitle] = useState([]);  
@@ -27,7 +27,9 @@ export default function CreateCourse(props) {
             description: description,
             userId: props.authenticatedUser.id, 
             estimatedTime: estimatedTime,
-            materialsNeeded: materialsNeeded
+            materialsNeeded: materialsNeeded,
+    
+
       }, {headers: {
           Authorization: `Basic ${props.credentials}`
       }}
@@ -90,6 +92,7 @@ export default function CreateCourse(props) {
                 id="description"
                 name="description" 
                 type="textarea"
+                rows="10"
                 onChange={event => setDescription(event.target.value)} 
                 placeholder="Description" />
               <input
@@ -101,6 +104,7 @@ export default function CreateCourse(props) {
               <textarea
                 id="materials-needed" 
                 name="materials-needed"
+                rows="10"
                 source={materialsNeeded}
                 onChange={event =>{ setMaterialsNeeded(event.target.value) }} 
                 placeholder="Materials Needed" />   

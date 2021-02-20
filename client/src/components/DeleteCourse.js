@@ -14,7 +14,25 @@
 //     const [ materialsNeeded, setMaterialsNeeded ] = useState(null);
 //     const [ validationTitle, setValidationTitle] = useState([]);  
 //     const [ errors, setErrors] = useState([]);
- 
+// const deleteCourse = async () => {
+//     await axios.delete(`/api/courses/${id}`,
+//        {headers: {
+//            Authorization: `Basic ${props.credentials}`
+//        }
+//    })
+//     .then(res =>{
+//         if(res.status === 403){
+//             history.push('/forbidden');
+//         }
+//     })
+//     .catch(()=>{
+//         history.push('/error');
+//     });
+//     history.push('/');
+// }
+
+
+
 
 //     const handleDeleteCourse = async (event) => {
         

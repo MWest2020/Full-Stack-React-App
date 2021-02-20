@@ -11,7 +11,6 @@ import {
 
 
 //import components 
-//
 import Header from './components/Header';
 
 //Courses routes
@@ -34,6 +33,9 @@ import UnhandledError from './components/UnhandledError';
 
 import PrivateRoute from './PrivateRoute';
 import './styles/global.css';
+import './styles/custom.css';
+// import './styles/init.css';
+import './styles/new.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -102,31 +104,28 @@ function App() {
       setCredentials(null);
     }
 
-  return (
-    <Router>
-      <div>
-        <Header authenticatedUser={authenticatedUser}/>
-
-        <Switch>
-          <Route exact path="/" render={() => (<Courses/>)}/>
-          {/* <Route exact path="/" render={() => (<Courses authenticatedUser={authenticatedUser}/>)}/> */}
-
-          //Private routes
-          <PrivateRoute exact path="/courses/create" component={CreateCourse}/>
-          <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse} />
-
-          <Route exact path="/courses/:id" render={(props) => (<CourseDetails credentials={credentials} authenticatedUser={authenticatedUser}/>)}/>
-
-          <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn}/>)}/>
-          <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn}/>)}/>
-          <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut}/>)}/>
-          <Route path="/error" component={UnhandledError}/>
-          <Route path="/forbidden" component={Forbidden}/>
-          <Route component={NotFound} />
-        </Switch>
-      </div>
-    </Router>
-  )
-}
+    return (
+      <Router>
+        <div>
+          <Header authenticatedUser={authenticatedUser}/>
+  
+          <Switch>
+            <Route exact path="/" render={() => (<Courses authenticatedUser={authenticatedUser}/>)}/>
+            <PrivateRoute exact path="/courses/create" component={CreateCourse}/>
+            <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse}/>
+            <Route exact path="/courses/:id" render={() => (<CourseDetails credentials={credentials} authenticatedUser={authenticatedUser}/>)}/>
+            <Route path="/signin" render={() => (<UserSignIn handleSignIn={handleSignIn}/>)}/>
+            <Route path="/signup" render={() => (<UserSignUp handleSignIn={handleSignIn}/>)}/>
+            <Route path="/signout" render={() => (<UserSignOut handleSignOut={handleSignOut}/>)}/>
+            <Route path="/error" component={UnhandledError}/>
+            <Route path="/forbidden" component={Forbidden}/>
+            <Route path="/notfound" component={NotFound}/>
+            <Route component={NotFound}/>
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
+  
 
 export default App;

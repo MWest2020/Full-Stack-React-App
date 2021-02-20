@@ -388,7 +388,6 @@ p {
 .course--add--module {
   background: #eee;
   text-align: center;
-  box-sizing: border-box;
 }
 /* line 137, ../sass/global.sass */
 .course--add--module:hover .course--add--title {
@@ -721,3 +720,4 @@ input:focus {
   color: #63537d;
   box-shadow: 0 0 0 2px #63537d inset;
 }
+
