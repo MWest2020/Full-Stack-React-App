@@ -87,14 +87,14 @@ export default function UserSignUp(props) {
             <>
             
               <input 
-                id="first-name"
-                name="first-name" 
+                id="firstName"
+                name="firstName" 
                 type="text"
                 onChange={event => setFirstName(event.target.value)} 
                 placeholder="First Name" />
               <input 
-                id="last-name"
-                name="last-name" 
+                id="lastName"
+                name="lastName" 
                 type="text"
                 onChange={event => setLastName(event.target.value)} 
                 placeholder="Last Name" />

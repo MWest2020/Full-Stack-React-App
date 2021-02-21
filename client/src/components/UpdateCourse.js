@@ -10,9 +10,8 @@ export default function UpdateCourse(props) {
 
     let history = useHistory();
   
-  
-    const [ title, setTitle ] = useState();
-    const [ description, setDescription ] = useState(null);
+    const [ title, setTitle ] = useState(props.title);
+    const [ description, setDescription ] = useState('');
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState(null);
     const [ validationTitle, setValidationTitle] = useState([]);  

@@ -20,14 +20,26 @@ export default function CourseDetails(props) {
         estimatedTime: null, 
         materialsNeeded: null
      });
+
+     const [user, setUser] = useState({
+         firstName: 'firstName',
+         lastName: 'lastName',
+         emailAddress: 'emailAddress',
+         
+     });
     
     //https://www.robinwieruch.de/react-fetching-data
     useEffect(()=>{
         async function fetchData(){
-        await axios.get(`/api/courses/${id}`)
+        await axios.get(`/api/courses/${id}`, {headers: {
+               Authorization: `Basic ${props.credentials}`
+           }
+       })
         .then((res)=>{
             //
             if(res.status === 200 && res.data.courses !== null){
+            
+            setUser(res.data.user);
             setCourse(res.data.courses);
             } else {
                 history.push('/notfound');
@@ -70,7 +82,7 @@ export default function CourseDetails(props) {
                     
                     } */}
                     <span>
-                        <Link to={`/courses/${id}update`} className="button" >Update Course</Link>
+                        <Link to={`/courses/${id}/update`} className="button" >Update Course</Link>
                         <button onClick={deleteCourse} className="button">Delete Course</button>
                         </span>
                 <Link to="/" className="button button-secondary" >Return to List</Link>
@@ -82,14 +94,10 @@ export default function CourseDetails(props) {
                 <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <h3 className="courses--title">{course.title}</h3>
-                {/* {
-                    props.authenticatedUser && props.authenticatedUser.id === course.User.id &&
-                    
-                } */}
-                <p>By {`${props.authenticatedUser.firstName} ${props.authenticatedUser.lastName}`}</p>
+                <p>By {course.User.firstName} {course.User.lastName}</p>
                 </div>
                 <div className="course--description">
-                <p>{course.description}</p>
+                <Markdown>{course.description}</Markdown>
                 </div>
             </div>
             <div className="grid-25 grid-right">
