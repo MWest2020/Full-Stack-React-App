@@ -28,6 +28,7 @@ export default function CreateCourse(props) {
             userId: props.authenticatedUser.id, 
             estimatedTime: estimatedTime,
             materialsNeeded: materialsNeeded,
+            
     
 
       }, {headers: {

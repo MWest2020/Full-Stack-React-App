@@ -10,7 +10,7 @@ export default function UpdateCourse(props) {
 
     let history = useHistory();
   
-    const [ title, setTitle ] = useState(props.title);
+    const [ title, setTitle ] = useState('');
     const [ description, setDescription ] = useState('');
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState(null);
@@ -36,9 +36,7 @@ export default function UpdateCourse(props) {
         .catch((error) =>{
             if(error.request && error.request.status === 400){
                 setErrors(JSON.parse(error.request.response).errors);
-            } else{
-                history.push('/error');
-            }
+            } 
             });
         }
         fetchData();
@@ -119,7 +117,7 @@ export default function UpdateCourse(props) {
                 name="title" 
                 type="text"
                 onChange={event => setTitle(event.target.value)} 
-                placeholder={title} />
+                placeholder={props.title} />
               <textarea 
                 id="description"
                 name="description" 
@@ -131,13 +129,15 @@ export default function UpdateCourse(props) {
                 name="estimatedTime" 
                 source={estimatedTime}
                 onChange={event => setEstimatedTime(event.target.value) } 
-                placeholder={!estimatedTime ? estimatedTime : 'No indication given' } />
+                // placeholder={!estimatedTime ? estimatedTime : 'No indication given' } 
+
+                />
               <textarea
                 id="materials-needed" 
                 name="materials-needed"
                 source={materialsNeeded}
                 onChange={event =>{ setMaterialsNeeded(event.target.value) }} 
-                placeholder={!materialsNeeded ? materialsNeeded : '' }
+                // placeholder={!materialsNeeded ? materialsNeeded : '' }
                 />   
               <div className="grid-100 pad-bottom">
               <button 

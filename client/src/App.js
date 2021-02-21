@@ -18,13 +18,13 @@ import Courses from './components/Courses';
 import CourseDetails from './components/CourseDetails';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
-import DeleteCourse from './components/DeleteCourse';
+
 
 //User routes
 import UserSignUp from './components/UserSignUp';
 import UserSignIn from './components/UserSignIn';
 import UserSignOut from './components/UserSignOut';
-import Authenticated from './components/Authenticated';
+
 
 //error routes
 import NotFound from './components/NotFound';
