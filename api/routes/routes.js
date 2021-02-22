@@ -15,7 +15,7 @@ const router = express.Router();
 
 // Route that returns a list of users. IF AND ONLY IF request is succesfully authenticated
 router.get('/users', authenticateUser,  asyncHandler(async(req, res) => {
-  try {
+  
     const user = req.currentUser;
     
     res.status(200)
@@ -26,17 +26,7 @@ router.get('/users', authenticateUser,  asyncHandler(async(req, res) => {
         id: user.id
     });
   
-  } catch (error) {
-    if (error.name === 'SequelizeValidationError' || 
-        error.name === 'SequelizeUniqueConstraintError') {
-        const errors = error.errors.map(err => err.message);
-      
-      res.status(400)
-        .json({ errors });   
-    } else {
-      throw error;
-    }
-  }
+  
 }));
 
 // Route that creates a new user.

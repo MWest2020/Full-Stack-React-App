@@ -17,30 +17,33 @@ export default function UpdateCourse(props) {
     const [ validationTitle, setValidationTitle] = useState([]);  
     const [ errors, setErrors] = useState([]);
  
-    useEffect(()=>{
-        async function fetchData(){
-        await axios.get(`/api/courses/${id}`)
-        .then((res)=>{
-            // //
-            if(res.status === 200 && res.data.courses === null){
-                history.push('/notfound')
-            } else if (!props.authenticatedUser || !props.authenticatedUser.id){
-                history.push('/forbidden');
-            }
+    // useEffect(()=>{
+    //     async function fetchData(){
+    //     await axios.get(`/api/courses/${id}`)
+    //     .then((res)=>{
+    //         // //
+    //         if(res.status === 200 && res.data.courses === null){
+    //             history.push('/notfound')
+    //         } else if (!props.authenticatedUser || !props.authenticatedUser.id){
+    //             history.push('/forbidden');
+    //         }
             
-            setTitle(res.data.course.title);
-            setDescription(res.data.course.description);
-            setEstimatedTime(res.data.course.estimatedTime);
-            setMaterialsNeeded(res.data.course.materialsNeeded);
-        })
-        .catch((error) =>{
-            if(error.request && error.request.status === 400){
-                setErrors(JSON.parse(error.request.response).errors);
-            } 
-            });
-        }
-        fetchData();
-    }, [history, id, props.authenticatedUser])
+    //         setTitle(res.data.course.title);
+    //         setDescription(res.data.course.description);
+    //         setEstimatedTime(res.data.course.estimatedTime);
+    //         setMaterialsNeeded(res.data.course.materialsNeeded);
+    //     })
+    //     .catch((error) =>{
+    //         if(error.request.status === 400){
+    //             setErrors(JSON.parse(error.request.response).errors);
+    //         } 
+    //         else {
+    //           history.push('/error')
+    //         }
+    //       })
+    //     }
+    //     fetchData();
+    // }, [history, id, props.authenticatedUser])
 
 
 
@@ -129,7 +132,7 @@ export default function UpdateCourse(props) {
                 name="estimatedTime" 
                 source={estimatedTime}
                 onChange={event => setEstimatedTime(event.target.value) } 
-                // placeholder={!estimatedTime ? estimatedTime : 'No indication given' } 
+                placeholder={!estimatedTime ? estimatedTime : 'No indication given' } 
 
                 />
               <textarea
@@ -137,7 +140,7 @@ export default function UpdateCourse(props) {
                 name="materials-needed"
                 source={materialsNeeded}
                 onChange={event =>{ setMaterialsNeeded(event.target.value) }} 
-                // placeholder={!materialsNeeded ? materialsNeeded : '' }
+                placeholder={!materialsNeeded ? materialsNeeded : '' }
                 />   
               <div className="grid-100 pad-bottom">
               <button 

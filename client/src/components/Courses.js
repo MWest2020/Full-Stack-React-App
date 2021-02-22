@@ -15,9 +15,12 @@ export default function Courses(props) {
   //https://www.robinwieruch.de/react-fetching-data
   useEffect(()=>{
     async function fetchData(){
-      axios.get('/api/courses')
+      await axios.get('/api/courses')
       .then((res)=>{
+        console.log(courses);
+        console.log(res.data.courses);
         setCourses(res.data.courses);
+        console.log(courses);
       })
       .catch((err) =>{
         history.push('/error');//pass error msg?

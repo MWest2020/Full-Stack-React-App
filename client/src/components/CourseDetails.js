@@ -14,32 +14,33 @@ export default function CourseDetails(props) {
     
 
     const [course, setCourse] = useState({    
+        
+        User: {
+            id: '',
+            firstName: '',
+            lastName: '',
+            emailAddress: ''
+        },  
         title: '', 
-        User: {}, 
         description: null, 
         estimatedTime: null, 
         materialsNeeded: null
      });
 
-     const [user, setUser] = useState({
-         firstName: 'firstName',
-         lastName: 'lastName',
-         emailAddress: 'emailAddress',
-         
-     });
+    
+     
     
     //https://www.robinwieruch.de/react-fetching-data
     useEffect(()=>{
         async function fetchData(){
-        await axios.get(`/api/courses/${id}`, {headers: {
-               Authorization: `Basic ${props.credentials}`
-           }
-       })
+        await axios.get(`/api/courses/${id}`
+        ,
+       )
         .then((res)=>{
             //
-            if(res.status === 200 && res.data.courses !== null){
+            if(res.status === 200 && res.data.course !== null){
             
-            setUser(res.data.user);
+            console.log(res.data.courses);
             setCourse(res.data.courses);
             } else {
                 history.push('/notfound');
@@ -76,7 +77,7 @@ export default function CourseDetails(props) {
             <div className="bounds">
                 <div className="grid-100">
                
-                    
+                    //conditional for links based on signin
                     <span>
                         <Link to={`/courses/${id}/update`} className="button" >Update Course</Link>
                         <button onClick={deleteCourse} className="button">Delete Course</button>
@@ -91,6 +92,7 @@ export default function CourseDetails(props) {
                 <h4 className="course--label">Course</h4>
                 <h3 className="courses--title">{course.title}</h3>
                 {/* <p>By {course.User.firstName} {course.User.lastName}</p> */}
+                <p>{`${course.User.firstName} ${course.User.lastName}`}</p>
                 </div>
                 <div className="course--description">
                 <Markdown>{course.description}</Markdown>

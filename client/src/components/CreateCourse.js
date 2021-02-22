@@ -6,15 +6,14 @@ import axios from 'axios';
 export default function CreateCourse(props) {
 
     let history = useHistory();
-  
-  
+    
     const [ title, setTitle ] = useState('');
     const [ description, setDescription ] = useState('');
     const [ estimatedTime, setEstimatedTime ] = useState(null);
     const [ materialsNeeded, setMaterialsNeeded ] = useState(null);
     const [ validationTitle, setValidationTitle] = useState([]);  
     const [ errors, setErrors] = useState([]);
- 
+    const [{User}, setUser] = useState({});
 
     const handleCreateCourse = async (event) => {
         
@@ -28,10 +27,14 @@ export default function CreateCourse(props) {
             userId: props.authenticatedUser.id, 
             estimatedTime: estimatedTime,
             materialsNeeded: materialsNeeded,
-            
-    
+            User: {
+              firstName: `${props.authenticatedUser.firstName}`,
+              lastName: `${props.authenticatedUser.lastName}`
+            }
+              
 
-      }, {headers: {
+      }, {
+          headers: {
           Authorization: `Basic ${props.credentials}`
       }}
       ).then((response) => {
