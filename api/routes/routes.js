@@ -36,7 +36,7 @@ router.post('/users', asyncHandler(async (req, res) => {
     await User.create(req.body);
     res.location('/')
     .status(201)
-    .end();
+    .send();
     
   } catch (error) {
     if (error.name === 'SequelizeValidationError' || 
@@ -53,7 +53,6 @@ router.post('/users', asyncHandler(async (req, res) => {
 // A /api/courses GET route that will return a list of all courses including the User that owns each course and a 200 HTTP status code.
 
 // Main route for page load and search query
-// A GET route that retrieves the list of courses.
 
 router.get('/courses', asyncHandler(async (req, res) => {
   const courses = await Course.findAll({
@@ -119,7 +118,7 @@ router.post('/courses',  authenticateUser, asyncHandler(async (req, res) => {
     
     res.location(`/courses/${course.id}`)
         .status(201)
-        .end();
+        .send();
     } catch (error) {
       console.log('ERROR: ', error.name);
   
@@ -144,7 +143,7 @@ router.put('/courses/:id', authenticateUser, asyncHandler( async (req, res) => {
         if(req.currentUser.id === course.userId) {
            await course.update(req.body);
            res.status(204)
-            .end();
+            .send();
         } else {
            res.status(403)
             .json({
