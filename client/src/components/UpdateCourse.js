@@ -17,33 +17,35 @@ export default function UpdateCourse(props) {
     const [ validationTitle, setValidationTitle] = useState([]);  
     const [ errors, setErrors] = useState([]);
  
-    // useEffect(()=>{
-    //     async function fetchData(){
-    //     await axios.get(`/api/courses/${id}`)
-    //     .then((res)=>{
-    //         // //
-    //         if(res.status === 200 && res.data.courses === null){
-    //             history.push('/notfound')
-    //         } else if (!props.authenticatedUser || !props.authenticatedUser.id){
-    //             history.push('/forbidden');
-    //         }
+    useEffect(()=>{
+        async function fetchData(){
+        await axios.get(`/api/courses/${id}`)
+        .then((res)=>{
             
-    //         setTitle(res.data.course.title);
-    //         setDescription(res.data.course.description);
-    //         setEstimatedTime(res.data.course.estimatedTime);
-    //         setMaterialsNeeded(res.data.course.materialsNeeded);
-    //     })
-    //     .catch((error) =>{
-    //         if(error.request.status === 400){
-    //             setErrors(JSON.parse(error.request.response).errors);
-    //         } 
-    //         else {
-    //           history.push('/error')
-    //         }
-    //       })
-    //     }
-    //     fetchData();
-    // }, [history, id, props.authenticatedUser])
+            if(res.status === 200 && res.data.courses === null){
+                history.push('/notfound')
+            } else if (props.authenticatedUser === null && props.authenticatedUser.id !== res.data.courses.User.id){
+                history.push('/forbidden');
+            }
+            // props.authenticatedUser && props.authenticatedUser.id === course.User.id
+            setTitle(res.data.courses.title);
+            setDescription(res.data.courses.description);
+            setEstimatedTime(res.data.courses.estimatedTime);
+            setMaterialsNeeded(res.data.courses.materialsNeeded);
+        })
+        .catch((error) =>{
+            // if(error.request && error.request.status === 400){
+            //     setErrors(JSON.parse(error.request.response).errors);
+            // } 
+            // else {
+            //   history.push('/error')
+            // }
+            alert('here');
+            history.push('/error')
+          })
+        }
+        fetchData();
+    }, [history, id, props.authenticatedUser])
 
 
 
@@ -67,7 +69,7 @@ export default function UpdateCourse(props) {
           if (response.status === 204) {
               console.log('added course to database')
               history.push(`/courses/${id}`);
-          } else if (response.status === 204) {
+          } else if (response.status === 403) {
             history.push('/forbidden');
           }
       })
@@ -96,73 +98,92 @@ export default function UpdateCourse(props) {
     },[errors]);
 
    
-  return (
-    <div className="bounds">
-      <div className="grid-33 centered signin">
-        
-        <h2 className="validation--errors--label">{validationTitle}</h2>
-        { 
-          errors !== [] &&
-          <div className="validation-errors">
-            <ul>{errors.map(error => { return <li key={error}><p>{error}</p></li> })}</ul>
+  
+    return (
+      <div>
+          <div className="bounds course--detail">
+              <h1>Update Course</h1>
+              <div>
+              <div>
+                  <h2 className="validation--errors--label">{validationTitle}</h2>
+                  <div>
+                      { errors !== [] && <h2 className="validation--errors--label">Validation errors</h2> &&
+                          <div className="validation-errors">
+                            <ul>  { 
+                              errors.map( error => { 
+                                return <li key={error}><p>{error}</p></li> })
+                            }
+                            </ul>
+                          </div>
+                      }
+                  </div>
+              </div>
+              <form>
+                  <div className="grid-66">
+                  <div className="course--header">
+                      <h4 className="course--label">Course</h4>
+                      <div>
+                        <input id="title" 
+                              name="title" 
+                              type="text" 
+                              className="input-title course--title--input" 
+                              onChange={ e => setTitle(e.target.value) } 
+                              value={title}/>
+                      </div>
+                        <p>By {
+                          props.authenticatedUser ? `${props.authenticatedUser.firstName} ${props.authenticatedUser.lastName}` : ''
+                          }
+                        </p>
+                  </div>
+                  <div className="course--description">
+                      <div>
+                        <textarea id="description" 
+                                name="description" 
+                                className="" 
+                                onChange={ e => setDescription(e.target.value) } 
+                                value={description}>
+                        </textarea>
+                      </div>
+                  </div>
+                  </div>
+                  <div className="grid-25 grid-right">
+                  <div className="course--stats">
+                      <ul className="course--stats--list">
+                      <li className="course--stats--list--item">
+                          <h4>Estimated Time</h4>
+                          <div>
+                            <input id="estimatedTime" 
+                                  name="estimatedTime" 
+                                  type="text" 
+                                  className="" 
+                                  onChange={ e => setEstimatedTime(e.target.value) } 
+                                  value={estimatedTime !== null ? estimatedTime : "Not specified."}/>
+                          </div>
+                      </li>
+                      <li className="course--stats--list--item">
+                          <h4>Materials Needed</h4>
+                          <div>
+                            <textarea id="materialsNeeded" 
+                                      name="materialsNeeded" 
+                                      className="" 
+                                      onChange={ e => setMaterialsNeeded(e.target.value) } 
+                                      value={materialsNeeded !== null ? materialsNeeded : "None."}>
+                            </textarea>
+                          </div>
+                      </li>
+                      </ul>
+                  </div>
+                  </div>
+                  <div className="grid-100 pad-bottom">
+                    <button className="button" 
+                            onClick={e => handleUpdateCourse(e)} 
+                            type="submit">Update Course
+                    </button>
+                    <Link to={`/courses/${id}`} onClick={cancel} className="button button-secondary">Cancel</Link>
+                  </div>
+              </form>
+              </div>
           </div>
-        }
-        
-        
-        <h1>Update Course</h1>
-        <>
-        <form> 
-          
-            <>
-            
-              <input 
-                id="title"
-                name="title" 
-                type="text"
-                onChange={event => setTitle(event.target.value)} 
-                placeholder={props.title} />
-              <textarea 
-                id="description"
-                name="description" 
-                type="textarea"
-                onChange={event => setDescription(event.target.value)} 
-                placeholder={description} />
-              <input
-                id="estimatedTime"
-                name="estimatedTime" 
-                source={estimatedTime}
-                onChange={event => setEstimatedTime(event.target.value) } 
-                placeholder={!estimatedTime ? estimatedTime : 'No indication given' } 
-
-                />
-              <textarea
-                id="materials-needed" 
-                name="materials-needed"
-                source={materialsNeeded}
-                onChange={event =>{ setMaterialsNeeded(event.target.value) }} 
-                placeholder={!materialsNeeded ? materialsNeeded : '' }
-                />   
-              <div className="grid-100 pad-bottom">
-              <button 
-                className="button" 
-                onClick={event => handleUpdateCourse(event)} 
-                type="submit">Add Course
-              </button>
-              <button 
-                className="button button-secondary" 
-                onClick={cancel} 
-                type="submit">Cancel
-              </button>
-              </div>           
-            </>
-          
-          </form>
-        </>
-        
-        <p>
-          Do you have a user account? <Link to="/signin">Click here</Link> to sign in!
-        </p>
       </div>
-    </div>
   );
 }

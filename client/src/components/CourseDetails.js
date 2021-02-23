@@ -77,11 +77,14 @@ export default function CourseDetails(props) {
             <div className="bounds">
                 <div className="grid-100">
                
-                    //conditional for links based on signin
-                    <span>
+                    
+                    {
+                        props.authenticatedUser && props.authenticatedUser.id === course.User.id &&
+                        <>
                         <Link to={`/courses/${id}/update`} className="button" >Update Course</Link>
                         <button onClick={deleteCourse} className="button">Delete Course</button>
-                        </span>
+                    </>
+                    }
                 <Link to="/" className="button button-secondary" >Return to List</Link>
                 </div>
             </div>
@@ -91,8 +94,8 @@ export default function CourseDetails(props) {
                 <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <h3 className="courses--title">{course.title}</h3>
-                {/* <p>By {course.User.firstName} {course.User.lastName}</p> */}
-                <p>{`${course.User.firstName} ${course.User.lastName}`}</p>
+                <p>By {course.User.firstName} {course.User.lastName}</p>
+                
                 </div>
                 <div className="course--description">
                 <Markdown>{course.description}</Markdown>

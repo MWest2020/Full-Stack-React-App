@@ -13,24 +13,29 @@ export default function CreateCourse(props) {
     const [ materialsNeeded, setMaterialsNeeded ] = useState(null);
     const [ validationTitle, setValidationTitle] = useState([]);  
     const [ errors, setErrors] = useState([]);
-    const [{User}, setUser] = useState({});
+    ;
 
     const handleCreateCourse = async (event) => {
         
       event.preventDefault();
 
-    
+      
       await axios.post(`/api/courses`, {
+           
+            User: JSON.stringify({ 
+              id: props.authenticatedUser.id, 
+              firstName: props.authenticatedUser.firstName,
+              lastName: props.authenticatedUser.lastName, 
+              emailAddress: props.authenticatedUser.emailAddress
+            }),
             
             title: title,
             description: description,
             userId: props.authenticatedUser.id, 
             estimatedTime: estimatedTime,
             materialsNeeded: materialsNeeded,
-            User: {
-              firstName: `${props.authenticatedUser.firstName}`,
-              lastName: `${props.authenticatedUser.lastName}`
-            }
+            
+            
               
 
       }, {
