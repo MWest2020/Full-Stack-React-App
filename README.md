@@ -8,7 +8,7 @@ General Info
 The aim for this showcase Full-Stack CRUD application is to let potential clients and employers see what I have done so far and the stack I have been using on each of the projects. 
 Expect this app to grow as my journey towards a Full-Stack developer continues - The next step is to built the Front-End side of this project.
 
-** Technologies Used:
+Technologies Used:
 * HTML 5
 * CSS 3
 * JavaScript ES6
