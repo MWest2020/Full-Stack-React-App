@@ -23,4 +23,4 @@ PostmanCanary
 The app is started by downloading all the files and by running the ```npm install``` and then ```npm start``` ON BOTH    ```../api``` and ```../client``` folders. Routes can be 
 tested via PostmanCanary. Import the test schema provided for convenience.
 
-Once installed, use the ```npx run seed``` in the ```../api``` folder command to initialize the database.
+Once installed, use the ```npx run seed``` command in the terminal from the ```../api``` folder to initialize the database.
