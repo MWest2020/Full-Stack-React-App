@@ -20,7 +20,7 @@ export default function Header(props) {
           {props.authenticatedUser ? (
             <>
               <span>Welcome, {props.authenticatedUser.firstName}!</span>
-              <Link to="/signout">Sign Out</Link>
+              <Link className="signout" to="/signout">Sign Out</Link>
             </>
           ) : (
             <>

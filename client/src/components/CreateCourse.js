@@ -73,51 +73,84 @@ export default function CreateCourse(props) {
 
    
   return (
-    <div className="bounds">
-      <div className="grid-33 centered signin">
-        
-        <h2 className="validation--errors--label">{validationTitle}</h2>
-        { 
-          errors !== [] &&
-          <div className="validation-errors">
-            <ul>{errors.map(error => { return <li key={error}><p>{error}</p></li> })}</ul>
-          </div>
-        }
-        
-        
+    
+      <div className="bounds course--detail">
         <h1>Create Course</h1>
-        <>
-        <form> 
-          
-            <>
+        <div>
+        <div>
+            <h2 className="validation--errors--label">{validationTitle}</h2>
             
-              <input 
-                id="title"
-                name="title" 
-                type="text"
-                onChange={event => setTitle(event.target.value)} 
-                placeholder="Title" />
-              <textarea 
-                id="description"
-                name="description" 
-                type="textarea"
-                rows="10"
-                onChange={event => setDescription(event.target.value)} 
-                placeholder="Description" />
-              <input
-                id="estimatedTime"
-                name="estimatedTime" 
-                source={estimatedTime}
-                onChange={event => setEstimatedTime(event.target.value) } 
-                placeholder="Estimated Time" />
-              <textarea
-                id="materials-needed" 
-                name="materials-needed"
-                rows="10"
-                source={materialsNeeded}
-                onChange={event =>{ setMaterialsNeeded(event.target.value) }} 
-                placeholder="Materials Needed" />   
-              <div className="grid-100 pad-bottom">
+                { errors !== [] && 
+                  <div className="validation-errors">
+                    <ul>{errors.map(error => { return <li key={error}>{error}</li> })}
+                    </ul>
+                  </div>
+                }
+            
+        </div>
+        <form> 
+          <div className="grid-66">
+            <div className="course--header">
+                <h4 className="course--label">Course</h4>
+                <div>
+                  <input 
+                    id="title"
+                    name="title" 
+                    type="text"
+                    className="input-title course-title--input"
+                    onChange={event => setTitle(event.target.value)} 
+                    placeholder="Course Title..." />
+                  <p>By {props.authenticatedUser ? props.authenticatedUser.firstName + " " + props.authenticatedUser.lastName : ""}
+                  </p>
+                </div>
+              </div>
+             
+            <div className="course--description">
+              <div>
+                <textarea 
+                  source={description}
+                  id="description"
+                  // className=""
+                  name="description" 
+                  type="textarea"
+                  
+                  rows="10"
+                  onChange={event => setDescription(event.target.value)} 
+                  placeholder="Course Description..." />
+              </div>
+            </div>
+            </div> 
+            <div className="grid-25 grid-right">
+              <div className="course--stats">
+                <ul className="course--stats--list">
+                  <li className="course--stats--list--item">
+                    <h4>Estimated Time</h4>
+                      <div>
+                        <input 
+                          id="estimatedTime"
+                          className="course--time--input"
+                          name="estimatedTime" 
+                          type="text" 
+                          onChange={ event => setEstimatedTime(event.target.value) } placeholder="Hours"/>
+                      </div>
+                  </li>
+                  <li className="course--stats--list--item">
+                    <h4>Materials Needed</h4>
+                      <div>
+                        <textarea 
+                          id="materialsNeeded" 
+                          // className=""
+                          name="materialsNeeded" 
+                          source={materialsNeeded} 
+                          onChange={ event => setMaterialsNeeded(event.target.value) }
+                          placeholder="List materials..."
+                          />
+                      </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="grid-100 pad-bottom">
               <button 
                 className="button" 
                 onClick={event => handleCreateCourse(event)} 
@@ -128,16 +161,9 @@ export default function CreateCourse(props) {
                 onClick={cancel} 
                 type="submit">Cancel
               </button>
-              </div>           
-            </>
-          
-          </form>
-        </>
-        
-        <p>
-          Do you have a user account? <Link to="/signin">Click here</Link> to sign in!
-        </p>
-      </div>
+            </div>           
+        </form>
+      </div> 
     </div>
   );
 }

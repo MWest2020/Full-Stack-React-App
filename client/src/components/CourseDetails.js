@@ -73,6 +73,7 @@ export default function CourseDetails(props) {
 
     return (
         <>
+            <hr/>
             <div className="actions--bar">
             <div className="bounds">
                 <div className="grid-100">
@@ -93,7 +94,7 @@ export default function CourseDetails(props) {
             <div className="grid-66">
                 <div className="course--header">
                 <h4 className="course--label">Course</h4>
-                <h3 className="courses--title">{course.title}</h3>
+                <h3 className="course--title">{course.title}</h3>
                 <p>By {course.User.firstName} {course.User.lastName}</p>
                 
                 </div>
