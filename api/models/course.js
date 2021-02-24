@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
           msg: 'A title is required',
           },
         notEmpty: {
-          msg: 'Please provide a title',
+          msg: 'Please provide a value for "title"',
           },
         },
       },
@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
             msg: 'A description is required',
           },
           notEmpty: {
-            msg: 'Please provide a description.'
+            msg: 'Please provide a value for "description".'
           },
         },    
       },
