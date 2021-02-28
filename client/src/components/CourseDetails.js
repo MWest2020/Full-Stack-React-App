@@ -6,6 +6,7 @@ import Markdown from 'react-markdown';
 //https://reactrouter.com/web/guides/quick-start
 //https://stackoverflow.com/questions/31875748/how-do-i-render-markdown-from-a-react-component
 
+
 export default function CourseDetails(props) {
 
     let history = useHistory();
